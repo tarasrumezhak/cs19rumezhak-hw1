@@ -1,11 +1,11 @@
-package ua.edu.ucu.tempseries;
-
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysis {
     private double[] tempSeries;
     private double average;
+    private int size;
+    private int last_added_index;
 
     public TemperatureSeriesAnalysis() {
 
@@ -18,6 +18,8 @@ public class TemperatureSeriesAnalysis {
             }
         }
         this.tempSeries = Arrays.copyOf(temperatureSeries, temperatureSeries.length);
+        this.size = temperatureSeries.length;
+        this.last_added_index = temperatureSeries.length - 1;
     }
 
     public double average() {
@@ -72,25 +74,6 @@ public class TemperatureSeriesAnalysis {
 
     public double findTempClosestToZero() {
         return findTempClosestToValue(0);
-//        double min = Math.abs(tempSeries[0] - 0);
-//        double closest = 0.0;
-//        double second_closest = 0.0;
-//        for (int i = 0; i < tempSeries.length; i++) {
-//            if (Math.abs(tempSeries[i]) <= min){
-//                if (Math.abs(tempSeries[i]) < min){
-//                    min = Math.abs(tempSeries[i]);
-//                    closest = tempSeries[i];
-//                }
-//                else if ((Math.abs(tempSeries[i]) == min)){
-//                    second_closest = tempSeries[i];
-//                }
-//            }
-//        }
-////        System.out.println(closest + " " + second_closest);
-//        if (Math.abs(closest) == Math.abs(second_closest)){
-//            return Math.abs(closest);
-//        }
-//        return closest;
     }
 
     public double findTempClosestToValue(double tempValue) {
@@ -108,14 +91,10 @@ public class TemperatureSeriesAnalysis {
                 }
             }
         }
-//        System.out.println(closest + " " + second_closest);
         if (Math.abs(closest) == Math.abs(second_closest)){
             return Math.abs(closest);
         }
-        if (closest > second_closest){
-            return closest;
-        }
-        else return second_closest;
+        return Math.max(closest, second_closest);
     }
 
     public double[] findTempsLessThen(double tempValue) {
@@ -153,15 +132,23 @@ public class TemperatureSeriesAnalysis {
         }
         return greater_arr;
     }
-    //    public TempSummaryStatistics summaryStatistics() {
-//        return null;
-//    }
+
+    public TempSummaryStatistics summaryStatistics() {
+        TempSummaryStatistics stats = new TempSummaryStatistics(this.average(), this.deviation(), this.min(), this.max());
+        return stats;
+    }
+
     public int addTemps(double... temps) {
-//        this.tempSeries = new double[tempSeries.length * 2]
-//        for (int i = 0; i < temps.length; i++) {
-//            tempSeries[tempSeries.length + i] = temps[i];
-//        }
-//        return tempSeries.length;
-        return 0;
+        if (last_added_index >= size - 1){
+            double[] tmp = new double[2*size];
+            System.arraycopy(tmp,0,tempSeries,0,tempSeries.length);
+            tempSeries = tmp;
+            size = size*2;
+        }
+        for (int i = 0; i < temps.length; i++) {
+            tempSeries[last_added_index + i] = temps[i];
+            last_added_index += 1;
+        }
+        return last_added_index + 1;
     }
 }
