@@ -17,7 +17,8 @@ public class TemperatureSeriesAnalysis {
                 throw new InputMismatchException();
             }
         }
-        this.tempSeries = Arrays.copyOf(temperatureSeries, temperatureSeries.length);
+        this.tempSeries = Arrays.copyOf(temperatureSeries,
+                temperatureSeries.length);
         this.size = temperatureSeries.length;
         this.last_added_index = temperatureSeries.length - 1;
     }
@@ -81,17 +82,17 @@ public class TemperatureSeriesAnalysis {
         double closest = tempSeries[0];
         double second_closest = 0.0;
         for (int i = 0; i < tempSeries.length; i++) {
-            if (Math.abs(tempSeries[i] - tempValue) <= min){
-                if (Math.abs(tempSeries[i] - tempValue) < min){
+            if (Math.abs(tempSeries[i] - tempValue) <= min) {
+                if (Math.abs(tempSeries[i] - tempValue) < min) {
                     min = Math.abs(tempSeries[i] - tempValue);
                     closest = tempSeries[i];
                 }
-                else if ((Math.abs(tempSeries[i] - tempValue) == min)){
+                else if (Math.abs(tempSeries[i] - tempValue) == min) {
                     second_closest = tempSeries[i];
                 }
             }
         }
-        if (Math.abs(closest) == Math.abs(second_closest)){
+        if (Math.abs(closest) == Math.abs(second_closest)) {
             return Math.abs(closest);
         }
         return Math.max(closest, second_closest);
@@ -134,14 +135,15 @@ public class TemperatureSeriesAnalysis {
     }
 
     public TempSummaryStatistics summaryStatistics() {
-        TempSummaryStatistics stats = new TempSummaryStatistics(this.average(), this.deviation(), this.min(), this.max());
+        TempSummaryStatistics stats = new TempSummaryStatistics(this.average(),
+                this.deviation(), this.min(), this.max());
         return stats;
     }
 
     public int addTemps(double... temps) {
-        if (last_added_index >= size - 1){
+        if (last_added_index >= size - 1) {
             double[] tmp = new double[2*size];
-            System.arraycopy(tmp,0,tempSeries,0,tempSeries.length);
+            System.arraycopy(tmp, 0, tempSeries, 0, tempSeries.length);
             tempSeries = tmp;
             size = size*2;
         }
