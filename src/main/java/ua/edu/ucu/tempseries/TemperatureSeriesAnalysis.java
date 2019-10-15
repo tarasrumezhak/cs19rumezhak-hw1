@@ -80,7 +80,7 @@ public class TemperatureSeriesAnalysis {
     public double findTempClosestToValue(double tempValue) {
         double min = Math.abs(tempSeries[0] - tempValue);
         double closest = tempSeries[0];
-        double second_closest = 0.0;
+        double secondClosest = 0.0;
         for (int i = 0; i < tempSeries.length; i++) {
             if (Math.abs(tempSeries[i] - tempValue) <= min) {
                 if (Math.abs(tempSeries[i] - tempValue) < min) {
@@ -88,14 +88,14 @@ public class TemperatureSeriesAnalysis {
                     closest = tempSeries[i];
                 }
                 else if (Math.abs(tempSeries[i] - tempValue) == min) {
-                    second_closest = tempSeries[i];
+                    secondClosest = tempSeries[i];
                 }
             }
         }
-        if (Math.abs(closest) == Math.abs(second_closest)) {
+        if (Math.abs(closest) == Math.abs(secondClosest)) {
             return Math.abs(closest);
         }
-        return Math.max(closest, second_closest);
+        return Math.max(closest, secondClosest);
     }
 
     public double[] findTempsLessThen(double tempValue) {
