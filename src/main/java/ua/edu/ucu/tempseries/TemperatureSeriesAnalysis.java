@@ -8,7 +8,9 @@ public class TemperatureSeriesAnalysis {
     private int lastAddedIndex;
 
     public TemperatureSeriesAnalysis() {
-
+        this.tempSeries = new double[5];
+        this.size = 5;
+        this.lastAddedIndex = -1;
     }
 
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
@@ -140,18 +142,28 @@ public class TemperatureSeriesAnalysis {
                 this.deviation(), this.min(), this.max());
         return stats;
     }
+    public int addTemp(double temp) {
+        if (lastAddedIndex >= size - 1) {
+            double[] tmp = new double[size * 2];
+            if (size > 0) {
+                System.arraycopy(tmp, 0, tempSeries, 0, tempSeries.length);
+            }
+            tempSeries = tmp;
+            size = size * 2;
+        }
+        tempSeries[lastAddedIndex + 1] = temp;
+        lastAddedIndex += 1;
+        return  lastAddedIndex + 1;
+    }
 
     public int addTemps(double... temps) {
-        if (lastAddedIndex >= size - 1) {
-            double[] tmp = new double[2*size];
-            System.arraycopy(tmp, 0, tempSeries, 0, tempSeries.length);
-            tempSeries = tmp;
-            size = size*2;
+        for (double temp : temps) {
+            addTemp(temp);
         }
-        for (int i = 0; i < temps.length; i++) {
-            tempSeries[lastAddedIndex + i] = temps[i];
-            lastAddedIndex += 1;
-        }
+        return lastAddedIndex + 1;
+    }
+
+    public int getLength() {
         return lastAddedIndex + 1;
     }
 }

@@ -57,6 +57,22 @@ public class TemperatureSeriesAnalysisTest {
     }
 
     @Test
+    public void TestOneElementMin() {
+        double expResult = -7.4;
+        TemperatureSeriesAnalysis oneElementSeries = new TemperatureSeriesAnalysis(new double[] {-7.4});
+        double actualResult = oneElementSeries.min();
+        assertEquals(expResult, actualResult, 0.0001);
+    }
+
+    @Test
+    public void TestOneElementMax() {
+        double expResult = 15.2;
+        TemperatureSeriesAnalysis oneElementSeries = new TemperatureSeriesAnalysis(new double[] {15.2});
+        double actualResult = oneElementSeries.max();
+        assertEquals(expResult, actualResult, 0.0001);
+    }
+
+    @Test
     public void max() {
         assertEquals(seriesAn.max(), 5.0, 0.00001);
     }
@@ -86,6 +102,13 @@ public class TemperatureSeriesAnalysisTest {
     }
 
     @Test
+    public void testAddTemp() {
+        TemperatureSeriesAnalysis serieAn = new TemperatureSeriesAnalysis(new double[] {2.0});
+        serieAn.addTemp(4.0);
+        assertEquals(serieAn.max(), 4.0, 0.00001);
+    }
+
+    @Test
     public void testAddTemps() {
         assertEquals(seriesAn.addTemps(6.0, -16.3), 7);
     }
@@ -103,6 +126,20 @@ public class TemperatureSeriesAnalysisTest {
     }
 
     @Test
+    public void testAddedTempsLengthToEmpty(){
+        TemperatureSeriesAnalysis seriesAn2 = new TemperatureSeriesAnalysis();
+        seriesAn2.addTemps(1, 2, 3, 4, 5, 6);
+        assertEquals(6, seriesAn2.getLength(), 0.001);
+    }
+
+    @Test
+    public void testAddedTempsLength(){
+        TemperatureSeriesAnalysis seriesAn2 = new TemperatureSeriesAnalysis(new double[] {8.0, -3.2});
+        seriesAn2.addTemps(1, 2, 3, 7.2, -5.7, 6);
+        assertEquals(8, seriesAn2.getLength(), 0.001);
+    }
+
+    @Test
     public void testTempSummaryStatistics(){
         String stats = seriesAn.summaryStatistics().toString();
         String actual = "   ===Statistics===   \n" +
@@ -111,5 +148,11 @@ public class TemperatureSeriesAnalysisTest {
                 "Minimum Temperature: -5.0\n" +
                 "Maximum Temperature: 5.0\n";
         assertEquals(stats, actual);
+    }
+
+    @Test
+    public void testLength(){
+        TemperatureSeriesAnalysis seriesAn2 = new TemperatureSeriesAnalysis(new double[] {2.7, 9.0, -5.6});
+        assertEquals(3, seriesAn2.getLength(), 0.001);
     }
 }
