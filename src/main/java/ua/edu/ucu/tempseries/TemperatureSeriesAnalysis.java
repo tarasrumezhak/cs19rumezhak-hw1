@@ -2,21 +2,22 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysis {
+    private static final int INITIAL_SIZE = 5;
+    private static final double MINIMUM_TEMPERATURE = -273.0;
     private double[] tempSeries;
     private double average;
     private int size;
     private int lastAddedIndex;
 
     public TemperatureSeriesAnalysis() {
-        this.tempSeries = new double[5];
-        this.size = 5;
+        this.tempSeries = new double[INITIAL_SIZE];
+        this.size = INITIAL_SIZE;
         this.lastAddedIndex = -1;
     }
 
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
-        int minimum = -273;
         for (int i = 0; i < temperatureSeries.length; i++) {
-            if (temperatureSeries[i] < minimum) {
+            if (temperatureSeries[i] < MINIMUM_TEMPERATURE) {
                 throw new InputMismatchException();
             }
         }
@@ -77,10 +78,16 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double findTempClosestToZero() {
+        if (tempSeries.length == 0) {
+            throw new IllegalArgumentException("Temperature Series is empty");
+        }
         return findTempClosestToValue(0);
     }
 
     public double findTempClosestToValue(double tempValue) {
+        if (tempSeries.length == 0) {
+            throw new IllegalArgumentException("Temperature Series is empty");
+        }
         double min = Math.abs(tempSeries[0] - tempValue);
         double closest = tempSeries[0];
         double secondClosest = 0.0;
@@ -158,6 +165,9 @@ public class TemperatureSeriesAnalysis {
 
     public int addTemps(double... temps) {
         for (double temp : temps) {
+            if (temp < MINIMUM_TEMPERATURE) {
+                throw new InputMismatchException("Too small temperature");
+            }
             addTemp(temp);
         }
         return lastAddedIndex + 1;
