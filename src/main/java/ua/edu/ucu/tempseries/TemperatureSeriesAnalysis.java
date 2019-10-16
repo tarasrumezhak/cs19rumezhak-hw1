@@ -12,9 +12,9 @@ public class TemperatureSeriesAnalysis {
     }
 
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
-        int MINIMUM = -273;
+        int minimum = -273;
         for (int i = 0; i < temperatureSeries.length; i++) {
-            if (temperatureSeries[i] < MINIMUM) {
+            if (temperatureSeries[i] < minimum) {
                 throw new InputMismatchException();
             }
         }
@@ -54,7 +54,7 @@ public class TemperatureSeriesAnalysis {
         }
         double min = tempSeries[0];
         for (int i = 0; i < tempSeries.length; i++) {
-            if (tempSeries[i] < min){
+            if (tempSeries[i] < min) {
                 min = tempSeries[i];
             }
         }
@@ -102,7 +102,7 @@ public class TemperatureSeriesAnalysis {
     public double[] findTempsLessThen(double tempValue) {
         int lessSize = 0;
         for (int i = 0; i < tempSeries.length; i++) {
-            if (tempSeries[i] < tempValue){
+            if (tempSeries[i] < tempValue) {
                 lessSize++;
             }
         }
