@@ -5,26 +5,27 @@ public class TemperatureSeriesAnalysis {
     private double[] tempSeries;
     private double average;
     private int size;
-    private int last_added_index;
+    private int lastAddedIndex;
 
     public TemperatureSeriesAnalysis() {
 
     }
 
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
+        int MINIMUM = -273;
         for (int i = 0; i < temperatureSeries.length; i++) {
-            if (temperatureSeries[i] < -273){
+            if (temperatureSeries[i] < MINIMUM) {
                 throw new InputMismatchException();
             }
         }
         this.tempSeries = Arrays.copyOf(temperatureSeries,
                 temperatureSeries.length);
         this.size = temperatureSeries.length;
-        this.last_added_index = temperatureSeries.length - 1;
+        this.lastAddedIndex = temperatureSeries.length - 1;
     }
 
     public double average() {
-        if (tempSeries.length == 0){
+        if (tempSeries.length == 0) {
             throw new IllegalArgumentException("Temperature Series is empty");
         }
         double sum = 0.0;
@@ -36,7 +37,7 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double deviation() {
-        if (tempSeries.length == 0){
+        if (tempSeries.length == 0) {
             throw new IllegalArgumentException("Temperature Series is empty");
         }
         double sum = 0.0;
@@ -48,7 +49,7 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double min() {
-        if (tempSeries.length == 0){
+        if (tempSeries.length == 0) {
             throw new IllegalArgumentException("Temperature Series is empty");
         }
         double min = tempSeries[0];
@@ -61,12 +62,12 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double max() {
-        if (tempSeries.length == 0){
+        if (tempSeries.length == 0) {
             throw new IllegalArgumentException("Temperature Series is empty");
         }
         double max = 0.0;
         for (int i = 0; i < tempSeries.length; i++) {
-            if (tempSeries[i] > max){
+            if (tempSeries[i] > max) {
                 max = tempSeries[i];
             }
         }
@@ -99,39 +100,39 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double[] findTempsLessThen(double tempValue) {
-        int size = 0;
+        int lessSize = 0;
         for (int i = 0; i < tempSeries.length; i++) {
             if (tempSeries[i] < tempValue){
-                size++;
+                lessSize++;
             }
         }
-        double[] less_arr = new double[size];
+        double[] lessArr = new double[lessSize];
         int j = 0;
         for (int i = 0; i < tempSeries.length; i++) {
-            if (tempSeries[i] < tempValue){
-                less_arr[j] = tempSeries[i];
+            if (tempSeries[i] < tempValue) {
+                lessArr[j] = tempSeries[i];
                 j++;
             }
         }
-        return less_arr;
+        return lessArr;
     }
 
     public double[] findTempsGreaterThen(double tempValue) {
-        int size = 0;
+        int greaterSize = 0;
         for (int i = 0; i < tempSeries.length; i++) {
-            if (tempSeries[i] > tempValue){
-                size++;
+            if (tempSeries[i] > tempValue) {
+                greaterSize++;
             }
         }
-        double[] greater_arr = new double[size];
+        double[] greaterArr = new double[greaterSize];
         int j = 0;
         for (int i = 0; i < tempSeries.length; i++) {
-            if (tempSeries[i] > tempValue){
-                greater_arr[j] = tempSeries[i];
+            if (tempSeries[i] > tempValue) {
+                greaterArr[j] = tempSeries[i];
                 j++;
             }
         }
-        return greater_arr;
+        return greaterArr;
     }
 
     public TempSummaryStatistics summaryStatistics() {
@@ -141,16 +142,17 @@ public class TemperatureSeriesAnalysis {
     }
 
     public int addTemps(double... temps) {
-        if (last_added_index >= size - 1) {
+        if (lastAddedIndex >= size - 1) {
             double[] tmp = new double[2*size];
             System.arraycopy(tmp, 0, tempSeries, 0, tempSeries.length);
             tempSeries = tmp;
             size = size*2;
         }
         for (int i = 0; i < temps.length; i++) {
-            tempSeries[last_added_index + i] = temps[i];
-            last_added_index += 1;
+            tempSeries[lastAddedIndex + i] = temps[i];
+            lastAddedIndex += 1;
         }
-        return last_added_index + 1;
+        return lastAddedIndex + 1;
     }
 }
+
