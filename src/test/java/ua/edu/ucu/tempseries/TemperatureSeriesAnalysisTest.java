@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.InputMismatchException;
+
 import static org.junit.Assert.*;
 
 public class TemperatureSeriesAnalysisTest {
@@ -33,6 +35,12 @@ public class TemperatureSeriesAnalysisTest {
 
         // expect exception here
         seriesAnalysis.average();
+    }
+
+    @Test(expected = InputMismatchException.class)
+    public void testLessThenMinimum() {
+        double[] temperatureSeries = {-2.0, 80.7, -305.8};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
     }
 
     @Test
@@ -83,8 +91,20 @@ public class TemperatureSeriesAnalysisTest {
     }
 
     @Test
+    public void testFindTempClosestToZero2() {
+        TemperatureSeriesAnalysis serieAnSame = new TemperatureSeriesAnalysis(new double[] {-1.4, 3.0, 7.0, 9.3, 2.0, -1.0});
+        assertEquals(serieAnSame.findTempClosestToZero(), -1.0, 0.00001);
+    }
+
+    @Test
     public void testFindTempClosestToValue() {
         assertEquals(seriesAn.findTempClosestToValue(4.0), 5.0, 0.00001);
+    }
+
+    @Test
+    public void testFindTempClosestToValueSame() {
+        TemperatureSeriesAnalysis serieAnSame = new TemperatureSeriesAnalysis(new double[] {-1.4, 3.0, 7.0, 9.3});
+        assertEquals(serieAnSame.findTempClosestToValue(5.0), 7.0, 0.00001);
     }
 
     @Test
@@ -154,5 +174,12 @@ public class TemperatureSeriesAnalysisTest {
     public void testLength(){
         TemperatureSeriesAnalysis seriesAn2 = new TemperatureSeriesAnalysis(new double[] {2.7, 9.0, -5.6});
         assertEquals(3, seriesAn2.getLength(), 0.001);
+    }
+
+    @Test
+    public void testAddTempResize() {
+        TemperatureSeriesAnalysis seriesAn2 = new TemperatureSeriesAnalysis();
+        seriesAn2.addTemp(1.0);
+        assertEquals(1, seriesAn2.getLength(), 0.001);
     }
 }
