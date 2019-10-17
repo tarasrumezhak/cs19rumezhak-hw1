@@ -72,6 +72,13 @@ public class TemperatureSeriesAnalysisTest {
         assertEquals(expResult, actualResult, 0.0001);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinValueEmptyArray() {
+        double[] temperatureSeries = {};
+        TemperatureSeriesAnalysis emptySeries = new TemperatureSeriesAnalysis(temperatureSeries);
+        emptySeries.min();
+    }
+
     @Test
     public void TestOneElementMax() {
         double expResult = 15.2;
@@ -83,6 +90,13 @@ public class TemperatureSeriesAnalysisTest {
     @Test
     public void max() {
         assertEquals(seriesAn.max(), 5.0, 0.00001);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxValueEmptyArray() {
+        double[] temperatureSeries = {};
+        TemperatureSeriesAnalysis emptySeries = new TemperatureSeriesAnalysis(temperatureSeries);
+        emptySeries.max();
     }
 
     @Test
